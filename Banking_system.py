@@ -1,6 +1,6 @@
 class BankAccount:
     
-    bank_name = "IOB"
+    bank_name = "Canara"
     branch = "Hyderabad"
     country = "India"
     
@@ -43,7 +43,7 @@ class BankAccount:
 
 BankAccount.set_minimum_balance(1000)
 
-ob1 = BankAccount("Padmini", 22, 9876543210, "IOB12345", 50000)
+ob1 = BankAccount("Padmini", 22, 9876543210, "CAN12345", 50000)
 
 ob1.display_details()
 print()
