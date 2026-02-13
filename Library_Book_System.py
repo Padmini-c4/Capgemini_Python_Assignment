@@ -1,52 +1,60 @@
+import logging
+
+# Logging Configuration
+logging.basicConfig(
+    filename="Library.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
+
 class LibraryBook:
+
+    fine_per_day = 10
     
-    bank_name = "Canara"
-    branch = "Hyderabad"
-    country = "India"
-    
-    def __init__(self, name, age, phone, acc_no, balance):
-        self.name = name
-        self.age = age
-        self.phone = phone
-        self.acc_no = acc_no
-        self.balance = balance
-    
-  
+
+    def __init__(self, title, author, days_late=0):
+        self.title = title
+        self.author = author
+        self.days_late = days_late
+        self.is_issued = False
+
+    def issue_book(self):
+        if not self.is_issued:
+            self.is_issued = True
+            logging.info("Book Issued: %s", self.title)
+        else:
+            logging.warning("Book '%s' is already issued.", self.title)
+
+    def return_book(self):
+        if self.is_issued:
+            self.is_issued = False
+            logging.info("Book Returned: %s", self.title)
+        else:
+            logging.warning("Book '%s' was not issued.", self.title)
+
+    def calculate_fine(self):
+        fine = self.days_late * LibraryBook.fine_per_day
+        logging.info("Fine for '%s' is: %d", self.title, fine)
+
     @classmethod
-    def set_minimum_balance(cls, amount):
-        cls.minimum_balance = amount
-        print("Minimum Balance Set To:", amount)
-    
-    def deposit(self, amount):
-        if amount > 0:
-            self.balance += amount
-            print("Amount Deposited Successfully")
-        else:
-            print("Invalid Deposit Amount")
-    
-    def withdraw(self, amount):
-        if amount <= 0:
-            print("Invalid Withdrawal Amount")
-        elif self.balance - amount < BankAccount.minimum_balance:
-            print("Cannot Withdraw!")
-        else:
-            self.balance -= amount
-            print("Withdrawal Successful")
-    
-    def display_details(self):
-        print("Name:", self.name)
-        print("Account No:", self.acc_no)
-        print("Balance:", self.balance)
-        print("Minimum Balance:", BankAccount.minimum_balance)
+    def update_fine_per_day(cls, new_fine):
+        cls.fine_per_day = new_fine
+        logging.info("Fine per day updated to: %d", new_fine)
 
 
+# Object Creation
+book1 = LibraryBook("Python Basics", "Guido", 3)
 
-BankAccount.set_minimum_balance(1000)
+book1.issue_book()
+book1.calculate_fine()
 
-ob1 = BankAccount("Padmini", 22, 9876543210, "CAN12345", 50000)
-
-ob1.display_details()
 print()
 
-ob1.withdraw(49500)
-ob1.display_details()
+LibraryBook.update_fine_per_day(20)
+
+book1.calculate_fine()
+
+print()
+
+book1.return_book()
